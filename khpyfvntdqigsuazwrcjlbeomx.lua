@@ -295,6 +295,11 @@ function SalvarConfig()
     config.ConfigHexDump.EspBox = GUI.EspBox[0]
     config.ConfigHexDump.AtivarMessagesLog = GUI.AtivarMessagesLog[0]
     config.ConfigHexDump.AntCrash = GUI.AntCrash[0]
+    config.ConfigHexDump.Menu1 = GUI.Menu1[0]
+    config.ConfigHexDump.Menu2 = GUI.Menu2[0]
+    config.ConfigHexDump.DesativarMenu = GUI.DesativarMenu[0]
+    config.ConfigHexDump.temaAzul = GUI.temaAzul[0]
+    config.ConfigHexDump.temaVermelho = GUI.temaVermelho[0]
     inicfg.save(config, CaminhoConfig)
 end
 
@@ -747,27 +752,32 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                 if imgui.Checkbox(" MENU JOGADORES", GUI.Menu1) then
                     GUI.Menu2[0] = false
                     GUI.DesativarMenu[0] = false
+                    SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 10 * DPI))
                 if imgui.Checkbox(" MENU VEICULOS", GUI.Menu2) then
                     GUI.Menu1[0] = false
                     GUI.DesativarMenu[0] = false
+                    SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 10 * DPI))
                 if imgui.Checkbox(" TODOS OS MENU", GUI.DesativarMenu) then
                     GUI.Menu1[0] = true
                     GUI.Menu2[0] = true
+                    SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 20 * DPI))
                 imgui.Text("TEMAS")
                 if imgui.Checkbox("TEMA (VERMELHO)", GUI.temaVermelho) then
                     GUI.temaAzul[0] = false
                     TemaVermelho()
+                    SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 10 * DPI))
                 if imgui.Checkbox("TEMA (AZUL)", GUI.temaAzul) then
                     GUI.temaVermelho[0] = false
                     TemaAzul()
+                    SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 20 * DPI))
                 imgui.EndPopup()
