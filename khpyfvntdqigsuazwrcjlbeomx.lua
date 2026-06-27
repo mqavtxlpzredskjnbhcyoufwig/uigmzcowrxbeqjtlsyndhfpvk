@@ -13,7 +13,7 @@ local encoding = require("encoding")
 encoding.default = "CP1251"
 local u8 = encoding.UTF8
 
-local blacklist = {[6] = true}
+-- local blacklist = {[6] = true}
 -- VERIFICAR IMAGEM
 ImagensVerificadas = false
 ImagensValidas = false
@@ -92,7 +92,12 @@ local config = inicfg.load({
         EspNome = false,
         EspBox = false,
         AtivarMessagesLog = false,
-        AntCrash = false
+        AntCrash = false,
+        Menu1 = false,
+        Menu2 = false,
+        DesativarMenu = false,
+        temaAzul = false,
+        temaVermelho = false
     },
     Amigos = {}
 }, CaminhoConfig)
@@ -113,7 +118,12 @@ if not config then
             EspNome = false,
             EspBox = false,
             AtivarMessagesLog = false,
-            AntCrash = false
+            AntCrash = false,
+            Menu1 = false,
+            Menu2 = false,
+            DesativarMenu = false,
+            temaAzul = false,
+            temaVermelho = true
         },
         Amigos = {}
     }
@@ -135,7 +145,12 @@ if not config.ConfigHexDump then
         EspNome = false,
         EspBox = false,
         AtivarMessagesLog = false,
-        AntCrash = false
+        AntCrash = false,
+        Menu1 = false,
+        Menu2 = false,
+        DesativarMenu = false,
+        temaAzul = false,
+        temaVermelho = false
     }
     inicfg.save(config, CaminhoConfig)
 end
@@ -247,11 +262,11 @@ local GUI = {
     EspNome = new.bool(config.ConfigHexDump.EspNome),
     EspInfoCar = new.bool(false),
     EspCarro = new.bool(false),
-    Menu1 = new.bool(false),
-    Menu2 = new.bool(false),
-    DesativarMenu = new.bool(true),
-    temaAzul = new.bool(false),
-    temaVermelho = new.bool(true),
+    Menu1 = new.bool(config.ConfigHexDump.Menu1),
+    Menu2 = new.bool(config.ConfigHexDump.Menu2),
+    DesativarMenu = new.bool(config.ConfigHexDump.DesativarMenu),
+    temaAzul = new.bool(config.ConfigHexDump.temaAzul),
+    temaVermelho = new.bool(config.ConfigHexDump.temaVermelho),
     AtivarMessagesLog = new.bool(config.ConfigHexDump.AtivarMessagesLog),
     AtivarTelaEsticada = new.bool(false),
     AlterarFovTela = new.int(70),
@@ -315,7 +330,7 @@ imgui.OnInitialize(function()
     local foto1Ok = false
     local foto2Ok = false
     local Foto1 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/HexDumpTeam.png"
-    local Foto2 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/JhowModsOfc_YtMobile.png"
+    local Foto2 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/JhowModsOfc.png"
     local function VerificarPeso(caminho, minKB, maxKB)
         local kb = 0
         for i = 1, 10 do
@@ -1301,12 +1316,12 @@ end
 ffi.cdef([[typedef struct RwV3d {float x, y, z;} RwV3d; void _ZN4CPed15GetBonePositionER5RwV3djb(void* thiz, RwV3d* posn, uint32_t bone, bool calledFromCam);]])
 -- FIM AIMBOT
 
-function se.onShowTextDraw(id, data)
+/*function se.onShowTextDraw(id, data)
     EnviarSmS(string.format("ID: %d | TEXTO: %s", id, data.text or "nil"), -1)
     if blacklist[id] then
         return false
     end
-end
+end*/
 
 function ProAim()
     if GUI.ProAimbot[0] and isWidgetPressed(WIDGET_VC_SHOOT_ALT) and isPlayerArmed() then
