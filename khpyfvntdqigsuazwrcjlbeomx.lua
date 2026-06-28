@@ -348,6 +348,12 @@ imgui.OnInitialize(function()
 
     imgui.GetIO().IniFilename = nil
 
+    if GUI.temaAzul[0] then
+        TemaAzul()
+    elseif GUI.temaVermelho[0] then
+        TemaVermelho()
+    end
+
     local Foto1 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/HexDumpTeam.png"
     local Foto2 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/JhowModsOfc.png"
 
