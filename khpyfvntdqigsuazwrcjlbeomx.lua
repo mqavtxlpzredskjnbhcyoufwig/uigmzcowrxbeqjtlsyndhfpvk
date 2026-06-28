@@ -8,15 +8,11 @@ local ffi = require("ffi")
 local gtasa = ffi.load("GTASA")
 local vector3d = require("vector3d")
 local memory = require("SAMemory")
-local se = require("samp.events")
 local encoding = require("encoding")
 encoding.default = "CP1251"
 local u8 = encoding.UTF8
 
--- local blacklist = {[6] = true}
 -- VERIFICAR IMAGEM
-ImagensVerificadas = false
-ImagensValidas = false
 local credito = renderCreateFont("Arial", 12, 1 + 4) 
 -- PLATAFORMA
 local players = {}
@@ -60,12 +56,33 @@ end
 
 local function VerificarOuCriarConfig(caminho)
     local file = io.open(caminho, "r")
+
     if not file then
         file = io.open(caminho, "w")
         if file then
+            file:write("[Amigos]\n\n")
             file:write("[ConfigHexDump]\n")
-            file:write("EspLine=false\n")
-            file:write("[Amigos]\n")
+
+            file:write("AtivarMessagesLog = false\n")
+            file:write("AntCrash = false\n")
+            file:write("Menu1 = false\n")
+            file:write("Menu2 = false\n")
+            file:write("DesativarMenu = true\n")
+            file:write("temaAzul = false\n")
+            file:write("temaVermelho = true\n")
+            file:write("AtivarDraFov = false\n")
+            file:write("Cabeca = true\n")
+            file:write("Peito = false\n")
+            file:write("IgnoreSkin = false\n")
+            file:write("IgnoreAdmin = false\n")
+            file:write("IgnoreAmigos = false\n")
+            file:write("IgnoreObject = false\n")
+            file:write("IgnoreVeiculo = false\n")
+            file:write("IgnoreAfkAim = false\n")
+            file:write("EspLine = false\n")
+            file:write("EspNome = false\n")
+            file:write("EspBox = false\n")
+
             file:close()
         end
     else
@@ -123,7 +140,7 @@ if not config then
             Menu2 = false,
             DesativarMenu = false,
             temaAzul = false,
-            temaVermelho = true
+            temaVermelho = false
         },
         Amigos = {}
     }
@@ -223,11 +240,9 @@ end
 local function BlackListServer()
     local ip, porta = sampGetCurrentServerAddress()
     local serverKey = ip .. ":" .. tostring(porta)
-
     if serverKey == "135.148.164.122:29698" then
         return true
     end
-
     return false
 end
 
@@ -317,54 +332,28 @@ local BotaoMob = imgui.ImVec2(380 * DPI, 40 * DPI)
 
 imgui.OnInitialize(function()
     DPI = getDPIScale() * ui_scale[0]
+
     local config = imgui.ImFontConfig()
     config.MergeMode = true
     config.PixelSnapH = true
+
     local iconRanges = imgui.new.ImWchar[3](faicons.min_range, faicons.max_range, 0)
+
     imgui.GetIO().Fonts:AddFontFromMemoryCompressedBase85TTF(
-        faicons.get_font_data_base85('Regular'),
+        faicons.get_font_data_base85("Regular"),
         20 * DPI,
         config,
         iconRanges
     )
+
     imgui.GetIO().IniFilename = nil
     TemaVermelho()
-    if ImagensVerificadas then
-        return
-    end
-    local foto1Ok = false
-    local foto2Ok = false
+
     local Foto1 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/HexDumpTeam.png"
     local Foto2 = getWorkingDirectory() .. "/JhowModsOfc/Menu Mobile/JhowModsOfc.png"
-    local function VerificarPeso(caminho, minKB, maxKB)
-        local kb = 0
-        for i = 1, 10 do
-            local file = io.open(caminho, "rb")
-            if file then
-                kb = file:seek("end") / 1024
-                file:close()
 
-                if kb > 0 then
-                    break
-                end
-            end
-        end
-        return kb >= minKB and kb <= maxKB
-    end
-    if VerificarPeso(Foto1, 215.0, 217.0) then
-        if CarregarFoto(Foto1) then
-            Imagem = imgui.CreateTextureFromFile(Foto1)
-            foto1Ok = Imagem ~= nil
-        end
-    end
-    if VerificarPeso(Foto2, 35.0, 37.0) then
-        if CarregarFoto(Foto2) then
-            Imagem2 = imgui.CreateTextureFromFile(Foto2)
-            foto2Ok = Imagem2 ~= nil
-        end
-    end
-    ImagensValidas = foto1Ok and foto2Ok
-    ImagensVerificadas = true
+    Imagem = imgui.CreateTextureFromFile(Foto1)
+    Imagem2 = imgui.CreateTextureFromFile(Foto2)
 end)
 
 imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
@@ -1325,13 +1314,6 @@ end
 
 ffi.cdef([[typedef struct RwV3d {float x, y, z;} RwV3d; void _ZN4CPed15GetBonePositionER5RwV3djb(void* thiz, RwV3d* posn, uint32_t bone, bool calledFromCam);]])
 -- FIM AIMBOT
-
-/*function se.onShowTextDraw(id, data)
-    EnviarSmS(string.format("ID: %d | TEXTO: %s", id, data.text or "nil"), -1)
-    if blacklist[id] then
-        return false
-    end
-end*/
 
 function ProAim()
     if GUI.ProAimbot[0] and isWidgetPressed(WIDGET_VC_SHOOT_ALT) and isPlayerArmed() then
