@@ -70,6 +70,7 @@ local function VerificarOuCriarConfig(caminho)
             file:write("DesativarMenu = true\n")
             file:write("temaAzul = false\n")
             file:write("temaVermelho = true\n")
+            file:write("temaRosa = true\n")
             file:write("AtivarDraFov = false\n")
             file:write("Cabeca = true\n")
             file:write("Peito = false\n")
@@ -114,7 +115,8 @@ local config = inicfg.load({
         Menu2 = false,
         DesativarMenu = false,
         temaAzul = false,
-        temaVermelho = false
+        temaVermelho = false,
+        temaRosa = false
     },
     Amigos = {}
 }, CaminhoConfig)
@@ -140,7 +142,8 @@ if not config then
             Menu2 = false,
             DesativarMenu = false,
             temaAzul = false,
-            temaVermelho = false
+            temaVermelho = false,
+            temaRosa = false
         },
         Amigos = {}
     }
@@ -167,7 +170,8 @@ if not config.ConfigHexDump then
         Menu2 = false,
         DesativarMenu = false,
         temaAzul = false,
-        temaVermelho = false
+        temaVermelho = false,
+        temaRosa = false
     }
     inicfg.save(config, CaminhoConfig)
 end
@@ -282,6 +286,7 @@ local GUI = {
     DesativarMenu = new.bool(config.ConfigHexDump.DesativarMenu),
     temaAzul = new.bool(config.ConfigHexDump.temaAzul),
     temaVermelho = new.bool(config.ConfigHexDump.temaVermelho),
+    temaRosa = new.bool(config.ConfigHexDump.temaRosa),
     AtivarMessagesLog = new.bool(config.ConfigHexDump.AtivarMessagesLog),
     AtivarTelaEsticada = new.bool(false),
     AlterarFovTela = new.int(70),
@@ -315,6 +320,7 @@ function SalvarConfig()
     config.ConfigHexDump.DesativarMenu = GUI.DesativarMenu[0]
     config.ConfigHexDump.temaAzul = GUI.temaAzul[0]
     config.ConfigHexDump.temaVermelho = GUI.temaVermelho[0]
+    config.ConfigHexDump.temaRosa = GUI.temaRosa[0]
     inicfg.save(config, CaminhoConfig)
 end
 
@@ -350,6 +356,8 @@ imgui.OnInitialize(function()
 
     if GUI.temaAzul[0] then
         TemaAzul()
+    elseif GUI.temaRosa[0] then
+        TemaRosa()
     elseif GUI.temaVermelho[0] then
         TemaVermelho()
     end
@@ -452,7 +460,10 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                 imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.00, 0.00, 1.00, 1.00))
                 imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
-
+            elseif GUI.temaRosa[0] then
+                imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(1.00, 0.20, 0.70, 1.00))
+                imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
+                imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
             elseif GUI.temaVermelho[0] then
                 imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.8, 0.0, 0.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(1.0, 0.0, 0.0, 1.0))
@@ -479,7 +490,7 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
             if imgui.Button(" SPAWN", BotaoMob) then
                 sampSendSpawn()
             end
-            if GUI.temaAzul[0] or GUI.temaVermelho[0] then
+            if GUI.temaAzul[0] or GUI.temaVermelho[0] or GUI.temaRosa[0] then
                 imgui.PopStyleColor(3)
             end
             imgui.Dummy(imgui.ImVec2(0, 25 * DPI))
@@ -614,7 +625,10 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                     imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.00, 0.00, 1.00, 1.00))
                     imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
                     imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
-
+                elseif GUI.temaRosa[0] then
+                    imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(1.00, 0.20, 0.70, 1.00))
+                    imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
+                    imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
                 elseif GUI.temaVermelho[0] then
                     imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.8, 0.0, 0.0, 1.0))
                     imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(1.0, 0.0, 0.0, 1.0))
@@ -652,7 +666,7 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                         MostrarNotificacao(mensagem, false)
                     end
                 end
-                if GUI.temaAzul[0] or GUI.temaVermelho[0] then
+                if GUI.temaAzul[0] or GUI.temaVermelho[0] or GUI.temaRosa[0] then
                     imgui.PopStyleColor(3)
                 end
                 imgui.Dummy(imgui.ImVec2(0, 30 * DPI))
@@ -764,13 +778,22 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                 imgui.Text("TEMAS")
                 if imgui.Checkbox("TEMA (VERMELHO)", GUI.temaVermelho) then
                     GUI.temaAzul[0] = false
+                    GUI.temaRosa[0] = false
                     TemaVermelho()
                     SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 10 * DPI))
                 if imgui.Checkbox("TEMA (AZUL)", GUI.temaAzul) then
                     GUI.temaVermelho[0] = false
+                    GUI.temaRosa[0] = false
                     TemaAzul()
+                    SalvarConfig()
+                end
+                imgui.Dummy(imgui.ImVec2(0, 10 * DPI))
+                if imgui.Checkbox("TEMA (ROSA)", GUI.temaRosa) then
+                    GUI.temaVermelho[0] = false
+                    GUI.temaAzul[0] = false
+                    TemaRosa()
                     SalvarConfig()
                 end
                 imgui.Dummy(imgui.ImVec2(0, 20 * DPI))
@@ -793,6 +816,10 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                 imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.00, 0.00, 1.00, 1.00))
                 imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
+            elseif GUI.temaRosa[0] then
+                imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(1.00, 0.20, 0.70, 1.00))
+                imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(0.0, 0.5, 1.0, 1.0))
+                imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.0, 0.3, 0.6, 1.0))
             elseif GUI.temaVermelho[0] then
                 imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.8, 0.0, 0.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(1.0, 0.0, 0.0, 1.0))
@@ -803,7 +830,7 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
 					sampAddChatMessage("", -1)
 				end
             end
-            if GUI.temaAzul[0] or GUI.temaVermelho[0] then
+            if GUI.temaAzul[0] or GUI.temaVermelho[0] or GUI.temaRosa[0] then
                 imgui.PopStyleColor(3)
             end
         end
@@ -1769,6 +1796,9 @@ function Toggle(id, bool) -- BOTAO TOGGLE
     if GUI.temaAzul[0] then
         corFundo = imgui.ImVec4(0.00, 0.00, 1.00, 1.00)
         corHover = imgui.ImVec4(0.00, 0.00, 1.00, 1.00)
+    elseif GUI.temaRosa[0] then
+        corFundo = imgui.ImVec4(1.00, 0.20, 0.70, 1.00)
+        corHover = imgui.ImVec4(1.00, 0.20, 0.70, 1.00)
     elseif GUI.temaVermelho[0] then
         corFundo = imgui.ImVec4(0.8, 0.0, 0.0, 1.0)
         corHover = imgui.ImVec4(1.0, 0.0, 0.0, 1.0)
@@ -1841,6 +1871,8 @@ function Slider(id, value, min, max, width, format) -- BOTAO SLIDE
 
     if GUI.temaAzul[0] then
         col_fill = imgui.ColorConvertFloat4ToU32(imgui.ImVec4(0.00, 0.00, 1.00, 1.00))
+    elseif GUI.temaRosa[0] then
+        col_fill = imgui.ColorConvertFloat4ToU32(imgui.ImVec4(1.00, 0.20, 0.70, 1.00))
     elseif GUI.temaVermelho[0] then
         col_fill = imgui.ColorConvertFloat4ToU32(imgui.ImVec4(1.0, 0.0, 0.0, 1.0))
     else
@@ -1893,4 +1925,22 @@ function TemaAzul()
     colors[clr.ButtonHovered] = ImVec4(0.20, 0.20, 0.20, 1.00)
     colors[clr.ButtonActive] = ImVec4(0.15, 0.15, 0.15, 1.00)
     colors[clr.CheckMark] = ImVec4(0.00, 1.00, 0.00, 1.00)
+end
+
+function TemaRosa()
+    local style = imgui.GetStyle()
+    local colors = style.Colors
+    local clr = imgui.Col
+    local ImVec4 = imgui.ImVec4
+
+    colors[clr.Border] = ImVec4(1.00, 0.20, 0.70, 1.00)
+    colors[clr.Separator] = ImVec4(1.00, 0.20, 0.70, 1.00)
+    colors[clr.WindowBg] = ImVec4(0.08, 0.05, 0.08, 1.00)
+    colors[clr.FrameBg] = ImVec4(1.00, 0.20, 0.70, 1.00)
+    colors[clr.TitleBg] = ImVec4(0.60, 0.00, 0.35, 0.80)
+    colors[clr.TitleBgActive] = ImVec4(0.80, 0.00, 0.50, 1.00)
+    colors[clr.Button] = ImVec4(0.00, 0.00, 0.00, 0.00)
+    colors[clr.ButtonHovered] = ImVec4(1.00, 0.40, 0.80, 0.40)
+    colors[clr.ButtonActive] = ImVec4(0.90, 0.10, 0.60, 0.60)
+    colors[clr.CheckMark] = ImVec4(1.00, 0.60, 0.90, 1.00)
 end
