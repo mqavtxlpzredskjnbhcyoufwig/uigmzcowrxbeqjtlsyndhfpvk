@@ -1658,7 +1658,7 @@ function se.onPlayerSync(id, data)
         end
     end
 
-    if GUI.AntRvank.v then
+    if GUI.AntRvank[0] then
         local x, y, z = getCharCoordinates(PLAYER_PED)
         if x - data.position.x > -1.5 and x - data.position.x < 1.5 then
             if (data.moveSpeed.x >= 1.5 or data.moveSpeed.x <= -1.5) or (data.moveSpeed.y >= 1.5 or data.moveSpeed.y <= -1.5) or (data.moveSpeed.z >= 0.5 or data.moveSpeed.z <= -0.5) then
@@ -1676,7 +1676,7 @@ function se.onVehicleSync(id, vehid, data)
         end
     end
 
-    if GUI.AntRvank.v then
+    if GUI.AntRvank[0] then
         local x, y, z = getCharCoordinates(PLAYER_PED)
         if x - data.position.x > -1.5 and x - data.position.x < 1.5 then
             if (data.moveSpeed.x >= 1.5 or data.moveSpeed.x <= -1.5) or (data.moveSpeed.y >= 1.5 or data.moveSpeed.y <= -1.5) or (data.moveSpeed.z >= 0.5 or data.moveSpeed.z <= -0.5) then
