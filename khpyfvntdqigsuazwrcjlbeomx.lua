@@ -1370,7 +1370,7 @@ function ProAim()
     end
 end
 
-function isTargetAFK(playerId) -- IGNORA AFK NO PRO AIM
+function isTargetAFK(playerId)
     return sampIsPlayerPaused(playerId)
 end
 
