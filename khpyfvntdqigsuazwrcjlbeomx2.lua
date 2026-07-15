@@ -205,13 +205,14 @@ local function BlackListServer()
 end
 
 local function VerSegundoArquivo()
-    local scriptPath = debug.getinfo(1, "S").source:sub(2)
-    local scriptDir = scriptPath:match("(.*[\\/])")
-    local file = io.open(scriptDir .. "HexDump Team Mobile Log.lua", "r")
+    local dir = thisScript().path:match("(.*[\\/])")
+    local file = io.open(dir .. "HexDump Team Mobile Log.lua", "r")
+
     if file then
-        io.close(file)
+        file:close()
         return true
     end
+
     return false
 end
 
