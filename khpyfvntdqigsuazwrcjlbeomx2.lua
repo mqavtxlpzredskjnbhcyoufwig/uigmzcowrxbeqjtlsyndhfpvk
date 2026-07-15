@@ -207,12 +207,10 @@ end
 local function VerSegundoArquivo()
     local dir = thisScript().path:match("(.*[\\/])")
     local file = io.open(dir .. "HexDump Team Mobile Log.lua", "r")
-
     if file then
         file:close()
         return true
     end
-
     return false
 end
 
@@ -1678,7 +1676,7 @@ function se.onVehicleSync(id, vehid, data)
         end
     end
 
-    if GUI.AntRvank[0] then
+    if GUI.AntRvank.v then
         local x, y, z = getCharCoordinates(PLAYER_PED)
         if x - data.position.x > -1.5 and x - data.position.x < 1.5 then
             if (data.moveSpeed.x >= 1.5 or data.moveSpeed.x <= -1.5) or (data.moveSpeed.y >= 1.5 or data.moveSpeed.y <= -1.5) or (data.moveSpeed.z >= 0.5 or data.moveSpeed.z <= -0.5) then
