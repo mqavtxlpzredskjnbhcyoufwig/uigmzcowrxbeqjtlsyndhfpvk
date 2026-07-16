@@ -1550,7 +1550,7 @@ function EspPlataforma()
         local peds = getAllChars()
         for i=2, #peds do
             local _, id = sampGetPlayerIdByCharHandle(peds[i])
-            if peds[i] ~= nil and isCharOnScreen(peds[i]) and not sampIsPlayerNpc(id) then
+            if peds[i] ~= nil and isCharOnScreen(peds[i]) then
                 local x, y, z = getCharCoordinates(peds[i])
                 local xs, ys = convert3DCoordsToScreen(x, y, z)
                 if players[id] ~= nil then
