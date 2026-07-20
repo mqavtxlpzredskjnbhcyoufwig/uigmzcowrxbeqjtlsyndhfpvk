@@ -60,14 +60,8 @@ function main()
         wait(100)
     end
     GUI.AbrirMenu[0] = true
-    sampRegisterChatCommand("hexdump", function()
-        GUI.AbrirMenu[0] = not GUI.AbrirMenu[0]
-    end)
     while true do
         wait(0)
-        if isWidgetSwipedLeft(WIDGET_RADAR) then
-            GUI.AbrirMenu[0] = not GUI.AbrirMenu[0]
-        end
     end
 end
 
