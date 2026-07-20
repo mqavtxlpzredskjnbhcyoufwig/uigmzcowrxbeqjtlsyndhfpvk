@@ -4,6 +4,7 @@ local widgets = require("widgets")
 local inicfg = require 'inicfg'
 local faicons = require('fAwesome6')
 local se = require("samp.events")
+local sf = require('sampfuncs')
 local ffi = require("ffi")
 local gtasa = ffi.load("GTASA")
 local vector3d = require("vector3d")
@@ -822,6 +823,9 @@ imgui.OnFrame(function() return GUI.AbrirMenu[0] end, function()
                 imgui.PushStyleColor(imgui.Col.Button,        imgui.ImVec4(0.8, 0.0, 0.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonHovered, imgui.ImVec4(1.0, 0.0, 0.0, 1.0))
                 imgui.PushStyleColor(imgui.Col.ButtonActive,  imgui.ImVec4(0.6, 0.0, 0.0, 1.0))
+            end
+            if imgui.Button(" RECONECTAR", BotaoMob) then
+                Reconnect()
             end
             if imgui.Button(" LIMPAR CHAT", BotaoMob) then
                 for i = 1, 15 do
@@ -1767,6 +1771,12 @@ function CarregarFoto(path)
     local size = file:seek("end")
     file:close()
     return size
+end
+
+function Reconnect()
+    local bs = raknetNewBitStream()
+    raknetEmulPacketReceiveBitStream(sf.PACKET_CONNECTION_LOST, bs)
+    raknetDeleteBitStream(bs)
 end
 
 function Som1()
